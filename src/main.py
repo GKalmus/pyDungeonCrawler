@@ -1,8 +1,10 @@
+import sys
+sys.path.insert(1,'../lib/')
+import colorsESC as esc
+
 import discord
 from discord.ext import commands
-
 import datetime
-
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -11,19 +13,9 @@ prefix = "$"
 
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 
-###Klassid### 
-class bcolors: #https://stackoverflow.com/questions/287871/how-do-i-print-colored-text-to-the-terminal
-    HEADER = '\033[95m'
-    OKBLUE = '\u001b[34m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    MAGENTA = '\u001b[35m'
 
+
+###Klassid### 
 
 
 ###Definitsioonid###
@@ -34,9 +26,9 @@ def guildname():
 def timestamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-def output(arg, ctx):
-    outputValue = f"{bcolors().MAGENTA}{ctx}{bcolors().ENDC} kasutas {bcolors().OKGREEN}'{arg}'{bcolors().ENDC}"
-    valjend = f"{timestamp()} {bcolors().OKCYAN}KÄSK{bcolors().BOLD}     {outputValue}"
+def output(autor, arg):
+    outputValue = f"{esc.fg().MAGENTA}{autor}{esc.util().RESET} kasutas {esc.fg().GREEN}'{arg}'{esc.util().RESET}"
+    valjend = f"{esc.fg().gra}{timestamp()} {esc.util().BOLD}{esc.fg().CYAN}KÄSK{esc.util().RESET}     {outputValue}"
     return valjend
 
 ##
@@ -44,11 +36,11 @@ def output(arg, ctx):
 async def on_ready():
     ##Output 
     ##Serveri nimekiri - Väljastab serverite nimekirja, kus bot on
-    serverid = f"{timestamp()} {bcolors().OKCYAN}INFO{bcolors().BOLD}     {bcolors().MAGENTA}Serverid: {bcolors().ENDC}"
+    serverid = f"{timestamp()} {esc.fg().CYAN}INFO{esc.util().RESET}     {esc.fg().MAGENTA}Serverid: {esc.util().RESET}"
     for e in guildname():
-        serverid += f"{bcolors().OKGREEN}{e}{bcolors().ENDC}, "
+        serverid += f"{esc.fg().GREEN}'{e}'{esc.util().RESET}, "
     print(serverid)
-    
+
     ##
 
 @bot.command() # Väljastab "Memberi" pildi(Member on kas, kirja autor v pingitu)
@@ -64,7 +56,7 @@ async def pic(ctx, member: discord.Member = None):
 
     ##Output
     await ctx.send(embed=show_avatar)
-    print(output(f"{prefix}pilt @{member}", ctx.message.author))
+    print(output(ctx.message.author, f"{prefix}pilt @{member}"))
 
     ##  
 
@@ -75,7 +67,7 @@ async def algus(ctx):
     await ctx.send('> Siin on sinu algus')
 
     ##
-    print(output(f"{prefix}algus", ctx.message.author))
+    print(output(ctx.message.author, f"{prefix}algus"))
     return
 
 
@@ -93,17 +85,18 @@ async def spam(ctx, arg="Su ema on nunnu!!", amount=5):
         await ctx.send(f"{t}")
         aint += 1
 
-    print(output(f"{prefix}spam {arg} {amount}", ctx.message.author))
+    print(output(ctx.message.author, f"{prefix}spam {arg} {amount}"))
 
 
 @bot.command() # Väljastab "Memberi" pildi(Member on kas, kirja autor v pingitu)
 async def testimine(ctx):
     member = ctx.message.author
     person = member.display_avatar
+
     ##Output
     await ctx.send(f"{person}.")
 
-    print(output(f"{prefix}testimine {member}", ctx.message.author))
+    print(output(ctx.message.author, f"{prefix}testimine {member}"))
     ##  
 
 
