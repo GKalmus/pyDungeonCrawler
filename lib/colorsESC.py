@@ -6,6 +6,7 @@ class fg:
       BLUE = "\u001b[34m"
       MAGENTA = "\u001b[35m"
       CYAN = "\u001b[36m"
+      GRAY = "\u001b[232m"
       WHITE = "\u001b[37m"
 
       def rgb(r, g, b): return f"\u001b[38;2;{r};{g};{b}m"

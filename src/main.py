@@ -2,6 +2,8 @@ import sys
 sys.path.insert(1,'../lib/')
 import colorsESC as esc
 
+import json
+
 import discord
 from discord.ext import commands
 import datetime
@@ -15,9 +17,6 @@ bot = commands.Bot(command_prefix=prefix, intents=intents)
 
 
 
-###Klassid### 
-
-
 ###Definitsioonid###
 def guildname():
     for guild in bot.guilds:
@@ -28,8 +27,12 @@ def timestamp():
 
 def output(autor, arg):
     outputValue = f"{esc.fg().MAGENTA}{autor}{esc.util().RESET} kasutas {esc.fg().GREEN}'{arg}'{esc.util().RESET}"
-    valjend = f"{esc.fg().gra}{timestamp()} {esc.util().BOLD}{esc.fg().CYAN}KÄSK{esc.util().RESET}     {outputValue}"
+    valjend = f"{esc.fg().GRAY}{timestamp()} {esc.util().BOLD}{esc.fg().CYAN}KÄSK{esc.util().RESET}     {outputValue}"
     return valjend
+
+def write_json(andmed, failinimi):
+    with open(failinimi, "w") as f:
+        json.dump(andmed, failinimi, indent=4)
 
 ##
 @bot.event
@@ -71,21 +74,6 @@ async def algus(ctx):
     return
 
 
-@bot.command()  #šabloon
-async def spam(ctx, arg="Su ema on nunnu!!", amount=5):
-    aint = 0
-    i = 0
-
-    ##Output
-    while amount >= aint:
-        t = ''
-        while len(t) < 1800:
-            i+=1
-            t += str(i)+ " "+str(arg) + "\n"
-        await ctx.send(f"{t}")
-        aint += 1
-
-    print(output(ctx.message.author, f"{prefix}spam {arg} {amount}"))
 
 
 @bot.command() # Väljastab "Memberi" pildi(Member on kas, kirja autor v pingitu)
