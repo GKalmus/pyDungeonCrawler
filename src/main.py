@@ -2,6 +2,8 @@ import sys
 sys.path.insert(1,'../lib/')
 import colorsESC as esc
 
+import player
+
 import json
 
 import discord
@@ -30,9 +32,7 @@ def output(autor, arg):
     valjend = f"{esc.fg().GRAY}{timestamp()} {esc.util().BOLD}{esc.fg().CYAN}KÄSK{esc.util().RESET}     {outputValue}"
     return valjend
 
-def write_json(andmed, failinimi):
-    with open(failinimi, "w") as f:
-        json.dump(andmed, failinimi, indent=4)
+
 
 ##
 @bot.event
@@ -86,6 +86,29 @@ async def testimine(ctx):
 
     print(output(ctx.message.author, f"{prefix}testimine {member}"))
     ##  
+
+@bot.command()
+async def profile(ctx):
+    member = ctx.message.author
+    playerInfo = player.Player(ctx.message.guild.id, member.id).getInfo()
+    await ctx.send(playerInfo)
+
+@bot.command()
+async def info(ctx, member: discord.Member = None):
+    messageauthor = ctx.message.author
+    if not member:
+        member = messageauthor
+    playerInfo = player.Player(str(ctx.message.guild.id), str(member.id)).getStats()
+    embed=discord.Embed()
+    embed.set_thumbnail(url="{}".format(member.display_avatar))
+    embed.set_footer(text=f'Küsis {ctx.message.author}')
+    embed.add_field(name="Player's level", value=f"LvL: {playerInfo['level']}\n XP: {playerInfo['xp']}", inline=True)
+    embed.add_field(name="Player's combat stat", value=f"ATK: {playerInfo['attack']}\n DEF: {playerInfo['defence']}", inline=True)
+    ##Output
+    await ctx.send(embed=embed)
+    
+    
+  
 
 
 
