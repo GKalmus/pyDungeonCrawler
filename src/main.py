@@ -99,13 +99,17 @@ async def info(ctx, member: discord.Member = None):
     if not member:
         member = messageauthor
     playerInfo = player.Player(str(ctx.message.guild.id), str(member.id)).getStats()
-    embed=discord.Embed()
+    embed=discord.Embed(title="Player card")
     embed.set_thumbnail(url="{}".format(member.display_avatar))
     embed.set_footer(text=f'Küsis {ctx.message.author}')
-    embed.add_field(name="Player's level", value=f"LvL: {playerInfo['level']}\n XP: {playerInfo['xp']}", inline=True)
-    embed.add_field(name="Player's combat stat", value=f"ATK: {playerInfo['attack']}\n DEF: {playerInfo['defence']}", inline=True)
+    embed.add_field(name="Stats", value=f"LvL: {playerInfo['level']}\n XP: {playerInfo['xp']}", inline=True)
+    embed.add_field(name="Attributes", value=f"ATK: {playerInfo['attack']}\n DEF: {playerInfo['defence']}", inline=True)
     ##Output
     await ctx.send(embed=embed)
+
+@bot.command()
+async def attack(ctx):
+    return
     
     
   
