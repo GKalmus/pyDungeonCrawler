@@ -32,6 +32,10 @@ def output(autor, arg):
     valjend = f"{esc.fg().GRAY}{timestamp()} {esc.util().BOLD}{esc.fg().CYAN}KÄSK{esc.util().RESET}     {outputValue}"
     return valjend
 
+def Player(playerID):
+    return player.Player(playerID)
+
+
 
 
 ##
@@ -63,19 +67,6 @@ async def pic(ctx, member: discord.Member = None):
 
     ##  
 
-@bot.command()
-async def algus(ctx):
-
-    ##
-    await ctx.send('> Siin on sinu algus')
-
-    ##
-    print(output(ctx.message.author, f"{prefix}algus"))
-    return
-
-
-
-
 @bot.command() # Väljastab "Memberi" pildi(Member on kas, kirja autor v pingitu)
 async def testimine(ctx):
     member = ctx.message.author
@@ -87,29 +78,44 @@ async def testimine(ctx):
     print(output(ctx.message.author, f"{prefix}testimine {member}"))
     ##  
 
-@bot.command()
-async def profile(ctx):
-    member = ctx.message.author
-    playerInfo = player.Player(ctx.message.guild.id, member.id).getInfo()
-    await ctx.send(playerInfo)
-
-@bot.command()
-async def info(ctx, member: discord.Member = None):
+@bot.command() # Väljastab Mängja stat kaardi
+async def info(ctx, member: discord.Member= None):
+    ##Member - vaatab, kas kedagi on pingitud selle käsuga, kui ei ole siis ta võtab memberiks autori ise
     messageauthor = ctx.message.author
     if not member:
         member = messageauthor
-    playerInfo = player.Player(str(ctx.message.guild.id), str(member.id)).getStats()
-    embed=discord.Embed(title="Player card")
-    embed.set_thumbnail(url="{}".format(member.display_avatar))
-    embed.set_footer(text=f'Küsis {ctx.message.author}')
-    embed.add_field(name="Stats", value=f"LvL: {playerInfo['level']}\n XP: {playerInfo['xp']}", inline=True)
-    embed.add_field(name="Attributes", value=f"ATK: {playerInfo['attack']}\n DEF: {playerInfo['defence']}", inline=True)
-    ##Output
+    
+    ##Player - võtab memberi info ja muudab nime
+    playerInfo = Player(str(member.id))
+    if playerInfo.name == "name":
+        playerInfo.setName(member)
+ 
+    ##Embed - enesest mõistetav, eesti keeles manus
+    embed=discord.Embed(title="Player card", description=f"**HP**:{playerInfo.health}\n **Status**: {playerInfo.status}")
+    embed.set_author(name=f"{member}", icon_url=f"{member.display_avatar}")
+    embed.set_footer(text=f"Küsis {ctx.message.author}")
+    embed.add_field(name="Stats", value=f"**LvL**: {playerInfo.level}\n **XP**: {playerInfo.xp}", inline=True)
+    embed.add_field(name="Attributes", value=f"**ATK**: {playerInfo.attack}\n **DEF**: {playerInfo.defence}", inline=True)
+
+    ##Output - väljastab manuse
     await ctx.send(embed=embed)
+    print(output(ctx.message.author, f"{prefix}info {member}"))
 
 @bot.command()
-async def attack(ctx):
-    return
+async def attack(ctx, member: discord.Member= None):
+    ##Member - vaatab, kas kedagi on pingitud selle käsuga, kui ei ole siis ta võtab memberiks autori ise
+    messageauthor = ctx.message.author
+    embed = discord.Embed(title="Attack")
+    embed.set_footer(text=f"Küsis {ctx.message.author}")
+    if not member:
+        member = messageauthor
+        userInfo = Player(str(member.id))
+        
+        embed.add_field("You attacked yourself, good job!")
+    else:
+        return
+    
+    ##
     
     
   

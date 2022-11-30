@@ -1,24 +1,74 @@
 {
-    "1032256108959633448": {
-        "338311633191436299": {
-            "stats": {
-                "health": "100",
-                "level": "1",
-                "xp": "0",
-                "attack": "1",
-                "defence": "0",
-                "status": "alive"
-            }
+    "2661123213123423493754890": {
+        "player": {
+            "name": "TestUser",
+            "health": "100000",
+            "level": "5",
+            "xp": "0",
+            "attack": "1",
+            "defence": "0",
+            "status": "Alive"
         },
-        "266996241093754890": {
-            "stats": {
-                "health": "100",
-                "level": "1",
-                "xp": "0",
-                "attack": "1",
-                "defence": "0",
-                "status": "alive"
-            }
+        "inventory": {}
+    },
+    "338311633191436299": {
+        "player": {
+            "name": "N3gev#4737",
+            "health": "100000",
+            "level": "99",
+            "xp": "6712389",
+            "attack": "99",
+            "defence": "99",
+            "status": "Immortal"
+        },
+        "inventory": {
+            "backpack": {},
+            "equip": {}
+        }
+    },
+    "266996241093754890": {
+        "inventory": {
+            "backpack": {},
+            "equip": {}
+        },
+        "player": {
+            "name": "VzAff#0810",
+            "health": "100",
+            "level": "1",
+            "xp": "0",
+            "attack": "1",
+            "defence": "0",
+            "status": "Alive"
+        }
+    },
+    "26611232131234asdfasdfa": {
+        "inventory": {
+            "backpack": {},
+            "equip": {}
+        },
+        "player": {
+            "name": "name",
+            "health": "100",
+            "level": "1",
+            "xp": "0",
+            "attack": "1",
+            "defence": "0",
+            "status": "Alive"
+        }
+    },
+    "354685998015447073": {
+        "inventory": {
+            "backpack": {},
+            "equip": {}
+        },
+        "player": {
+            "name": "M\u00e4llar(BakemBait)#9903",
+            "health": "100",
+            "level": "1",
+            "xp": "0",
+            "attack": "1",
+            "defence": "0",
+            "status": "Alive"
         }
     }
 }

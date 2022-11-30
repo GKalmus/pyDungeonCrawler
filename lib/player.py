@@ -1,79 +1,160 @@
 import json
-import discord
 
 def write_json(andmed:str, failinimi="../files/players.json"):
       jsonString = json.dumps(andmed, indent=4)
-      with open(failinimi, "w") as f:
+      with open(failinimi, "w", encoding="UTF-8") as f:
             f.write(jsonString)
 
 def load_json(failinimi="../files/players.json"):
-      with open(failinimi, "r") as f:
+      with open(failinimi, "r", encoding="UTF-8") as f:
             return json.load(f)
 
 defaultValue= {
+      "name": "name",
       "health": "100", 
       "level": "1", 
       "xp": "0", 
       "attack": "1", 
       "defence": "0",
-      "status": "alive"
+      "status": "Alive"
+      }
+
+itemDefaultValue= {
+      "id": "",
+      "type": "",
+      "data": {},
+      "lore": ""
+      }
+
+equipDefaultValue={
+      "head": "",
+      "armor": "",
+      "neck": "",
+      "mainHand": "",
+      "offHand": ""
       }
 
 
 class Player:
-      def __init__(self, guildID, playerID):
-            self.guildID = str(guildID)
+      def __init__(self, playerID):
             self.playerID = str(playerID)
+            self.inventory = self.getInv()
+            self.getXp()
+            self.getPlayerData()
+
+      def getInfo(self):
+            data = load_json()
+            if not self.playerID in data:
+                  data[self.playerID] = { }
+                  write_json(data)
+            return data[self.playerID]
+      
+      def setInfo(self, inv):
+            data = load_json()
+            data[self.playerID] = inv
+            write_json(data)
+
+      def getPlayer(self):
+            playerInfo = self.getInfo()
+            if not "player" in playerInfo:
+                  player = defaultValue
+                  self.setPlayer(player)
+                  playerInfo = self.getInfo() # Uuendab playerInfot
+            return playerInfo["player"]
+      
+      def setPlayer(self, player):
+            playerInfo = self.getInfo()
+            playerInfo["player"] = player
+            self.setInfo(playerInfo)
+      
+      def getInv(self):
+            playerInfo = self.getInfo()
+            if not "inventory" in playerInfo:
+                  inv = {"backpack":{},"equip":{}}
+                  self.setInv(inv)
+                  playerInfo = self.getInfo() # Uuendab playerInfot
+            return playerInfo["inventory"]
+
+      def setInv(self, inv):
+            playerInfo = self.getInfo()
+            playerInfo["inventory"] = inv
+            self.setInfo(playerInfo)
+
+      def getBackpack(self): #
+            inv = self.getInv()
+            return inv["backpack"]
+      
+      def setBackpack(self, backpack):
+            inv = self.getInv()
+            inv["backpack"] = backpack
+            self.setInv()
+
+      def getEquip(self):
+            inv = self.getInv()
+            if inv["equip"] == {}:
+                  equip = equipDefaultValue
+                  self.setEquip(equip)
+                  inv = self.getInv()
+            return inv["equip"]
+      
+      def setEquip(self, equip):
+            inv = self.getInv()
+            inv["equip"] = equip
+            self.setInv()
 
       def getPlayerData(self):
             playerData = self.getPlayer()
-            self.health = playerData.health
-            self.level = playerData.level
-            self.xp = playerData.xp
-            self.attack = playerData.attack
-            self.defence = playerData.defence
-            self.status = playerData.status
+            self.name = playerData["name"]
+            self.health = int(playerData["health"])
+            self.level = int(playerData["level"])
+            self.xp = int(playerData["xp"])
+            self.attack = int(playerData["attack"])
+            self.defence = int(playerData["defence"])
+            self.status = playerData["status"]
 
       def setPlayerData(self):
             inv = {
-            "health": f"{self.health}", 
-            "level": f"{self.level}", 
-            "xp": f"{self.xp}", 
-            "attack": f"{self.attack}", 
-            "defence": f"{self.defence}",
+            "name": f"{self.name}",
+            "health": f"{int(self.health)}", 
+            "level": f"{int(self.level)}", 
+            "xp": f"{int(self.xp)}", 
+            "attack": f"{int(self.attack)}", 
+            "defence": f"{int(self.defence)}",
             "status": f"{self.status}"
             }
             self.setPlayer(inv)
 
+      def setName(self, name):
+            self.getPlayerData()
+            self.name = name
+            self.setPlayerData()
 
-      def getInfo(self):
-            data = load_json()
-            if not self.guildID in data:
-                  data[self.guildID] = { }
-                  write_json(data)
-            if not self.playerID in data:
-                  data[self.guildID][self.playerID] = { }
-                  write_json(data)
-            return data[self.guildID][self.playerID]
+      def levelUp(self):
+            self.getPlayerData() # Uued andmed
+            self.level += 1
+            self.health = self.level*self.level+100
+            self.setPlayerData() # Salvestan andmed
       
-      def setInfo(self, inv):
-            data = load_json()
-            data[self.guildID][self.playerID] = inv
-            write_json(data)
+      def getXp(self, incomingXp:str= 0):
+            self.getPlayerData()
+            level = self.level
+            self.xp += incomingXp
+            if self.xp >= (level*level*100):
+                  while self.xp >= (level*level*100):
+                        self.xp -= level*level*100
+                        self.levelUp()
+            self.setPlayerData
+            return self.xp
 
-
-      def getPlayer(self):
-            inv = self.getInfo()
-            data = load_json()
-            if not "stats" in inv:
-                  inv["stats"] = defaultValue
-                  self.setPlayer(inv)
-            return inv["stats"]
-
-      def setPlayer(self, player):
-            inv = self.getInfo()
-            inv = player
-            self.setInfo(inv)
+      def setAttack(self, amount):
+            self.getPlayerData()
+            self.attack = amount
+            self.setPlayerData
+      
+      def setDefence(self, amount):
+            self.getPlayerData
+            self.defence = amount
+            self.setPlayerData
 
       def damage(self, dmg):
             self.getPlayerData()
@@ -86,15 +167,27 @@ class Player:
                   self.status = "Dead"
             self.setPlayerData()
             return self.health
-      def heal(self, amount):
+
+      def setHealth(self, amount):
             self.getPlayerData()
-            self.health += amount
+            self.health = amount
             self.setPlayerData()
-
-
-
-
       
+      def revive(self):
+            self.getPlayerData()
+            level = self.level
+            if self.status == "Dead":
+                  self.health = level*level+100
+                  self.status = "Alive"
+                  self.setPlayerData
+                  return True
+            else:
+                  return False
+
+
+
+name = "TestUser"
             
-n3gev = Player(1032256108959633448, 2661123213123423493754890)
-print(n3gev.getPlayer())
+testUser = Player("26611232131234asdfasdfa")
+print(testUser.health)
+
