@@ -1,21 +1,9 @@
 {
-    "2661123213123423493754890": {
-        "player": {
-            "name": "TestUser",
-            "health": "100000",
-            "level": "5",
-            "xp": "0",
-            "attack": "1",
-            "defence": "0",
-            "status": "Alive"
-        },
-        "inventory": {}
-    },
     "338311633191436299": {
         "player": {
-            "name": "N3gev#4737",
-            "health": "100000",
-            "level": "99",
+            "name": "N3gev",
+            "health": "17927054",
+            "level": "4234",
             "xp": "6712389",
             "attack": "99",
             "defence": "99",
@@ -32,22 +20,7 @@
             "equip": {}
         },
         "player": {
-            "name": "VzAff#0810",
-            "health": "100",
-            "level": "1",
-            "xp": "0",
-            "attack": "1",
-            "defence": "0",
-            "status": "Alive"
-        }
-    },
-    "26611232131234asdfasdfa": {
-        "inventory": {
-            "backpack": {},
-            "equip": {}
-        },
-        "player": {
-            "name": "name",
+            "name": "VzAff",
             "health": "100",
             "level": "1",
             "xp": "0",
@@ -62,13 +35,43 @@
             "equip": {}
         },
         "player": {
-            "name": "M\u00e4llar(BakemBait)#9903",
+            "name": "M\u00e4llar(BakemBait)",
             "health": "100",
             "level": "1",
             "xp": "0",
             "attack": "1",
             "defence": "0",
             "status": "Alive"
+        }
+    },
+    "1032252969455976469": {
+        "player": {
+            "name": "Koopa roomaja",
+            "health": "901",
+            "level": "1",
+            "xp": "0",
+            "attack": "1",
+            "defence": "0",
+            "status": "Alive"
+        },
+        "inventory": {
+            "backpack": {},
+            "equip": {}
+        }
+    },
+    "Test": {
+        "player": {
+            "name": "Test",
+            "health": "136",
+            "level": "6",
+            "xp": "0",
+            "attack": "1",
+            "defence": "0",
+            "status": "Alive"
+        },
+        "inventory": {
+            "backpack": {},
+            "equip": {}
         }
     }
 }

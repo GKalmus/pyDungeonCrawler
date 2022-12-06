@@ -1,3 +1,5 @@
+## Autor: Gert Kalmus
+
 import sys
 sys.path.insert(1,'../lib/')
 import colorsESC as esc
@@ -88,7 +90,7 @@ async def info(ctx, member: discord.Member= None):
     ##Player - võtab memberi info ja muudab nime
     playerInfo = Player(str(member.id))
     if playerInfo.name == "name":
-        playerInfo.setName(member)
+        playerInfo.setName(str(member)[:-5])
  
     ##Embed - enesest mõistetav, eesti keeles manus
     embed=discord.Embed(title="Player card", description=f"**HP**:{playerInfo.health}\n **Status**: {playerInfo.status}")
@@ -109,19 +111,63 @@ async def attack(ctx, member: discord.Member= None):
     embed.set_footer(text=f"Küsis {ctx.message.author}")
     if not member:
         member = messageauthor
-        userInfo = Player(str(member.id))
-        
-        embed.add_field("You attacked yourself, good job!")
+
+    ##Player info
+    target = Player(str(member.id))
+    target.setName(str(member)[:-5])
+    attacker = Player(str(messageauthor.id))
+    attacker.setName(str(messageauthor)[:-5])
+
+    ##Arvutused
+    targetHPthen = int(target.health)
+    target.damage(attacker.attack)
+    targetHPnow = int(target.health)
+    dmgReceived = targetHPthen - targetHPnow
+
+    ##Embed
+    embed.add_field(name= f"{attacker.name} attacked {target.name}",value=f"**Damage received**: {dmgReceived}")
+    
+    ##Output
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def heal(ctx, member: discord.Member= None):
+    ##Member - vaatab, kas kedagi on pingitud selle käsuga, kui ei ole siis ta võtab memberiks autori ise
+    messageauthor = ctx.message.author
+    embed = discord.Embed(title="Heal")
+    embed.set_footer(text=f"Küsis {ctx.message.author}")
+    if not member:
+        member = messageauthor
+
+    ##Player info
+    target = Player(str(member.id))
+    target.setName(str(member)[:-5])
+    healer = Player(str(messageauthor.id))
+    healer.setName(str(messageauthor)[:-5])
+
+    ##Arvutused
+    targetHPthen = int(target.health)
+    if targetHPthen == 0:
+        target.revive()
     else:
-        return
+        target.setHealth(targetHPthen + healer.attack)
+    targetHPnow = int(target.health)
+    hpHealed = targetHPnow - targetHPthen
+
+    ##Embed
+    embed.add_field(name= f"{healer.name} healed {target.name}",value=f"**Health received**: {hpHealed}")
     
-    ##
-    
-    
-  
+    ##Output
+    await ctx.send(embed=embed)
 
 
 
-tokenFail = open("..\\token.txt","r", encoding="UTF-8")
-bot.run(tokenFail.read())
-tokenFail.close()
+    
+    
+
+try:
+    tokenFail = open("..\\token.txt","r", encoding="UTF-8")
+    bot.run(tokenFail.read())
+    tokenFail.close()
+except:
+    print("Sul puudub token.txt fail")

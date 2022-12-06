@@ -1,3 +1,5 @@
+## Autor: Gert Kalmus
+
 import json
 
 def write_json(andmed:str, failinimi="../files/players.json"):
@@ -38,10 +40,10 @@ equipDefaultValue={
 class Player:
       def __init__(self, playerID):
             self.playerID = str(playerID)
+            self.getPlayerData()
             self.inventory = self.getInv()
             self.getXp()
-            self.getPlayerData()
-
+            
       def getInfo(self):
             data = load_json()
             if not self.playerID in data:
@@ -49,9 +51,9 @@ class Player:
                   write_json(data)
             return data[self.playerID]
       
-      def setInfo(self, inv):
+      def setInfo(self, info):
             data = load_json()
-            data[self.playerID] = inv
+            data[self.playerID] = info
             write_json(data)
 
       def getPlayer(self):
@@ -143,21 +145,22 @@ class Player:
                   while self.xp >= (level*level*100):
                         self.xp -= level*level*100
                         self.levelUp()
-            self.setPlayerData
+            self.setPlayerData()
             return self.xp
 
       def setAttack(self, amount):
             self.getPlayerData()
             self.attack = amount
-            self.setPlayerData
-      
+            self.setPlayerData()
+
       def setDefence(self, amount):
-            self.getPlayerData
+            self.getPlayerData()
             self.defence = amount
-            self.setPlayerData
+            self.setPlayerData()
 
       def damage(self, dmg):
             self.getPlayerData()
+            end = True
             if self.status == "Immortal":
                   dmg = 0
             else:
@@ -165,8 +168,9 @@ class Player:
             if self.health <= 0:
                   self.health = 0
                   self.status = "Dead"
+                  end = False
             self.setPlayerData()
-            return self.health
+            return end
 
       def setHealth(self, amount):
             self.getPlayerData()
@@ -179,15 +183,9 @@ class Player:
             if self.status == "Dead":
                   self.health = level*level+100
                   self.status = "Alive"
-                  self.setPlayerData
+                  self.setPlayerData()
                   return True
             else:
                   return False
 
-
-
-name = "TestUser"
-            
-testUser = Player("26611232131234asdfasdfa")
-print(testUser.health)
 
