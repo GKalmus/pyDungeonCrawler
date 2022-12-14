@@ -162,22 +162,6 @@ async def heal(ctx, member: discord.Member= None):
     await ctx.send(embed=embed)
 
 
-@bot.command() ##Kanali puhastamine
-async def clear(msg):
-    if message.author.bot:
-        return
-    if message.content.startswith(prefix + "clear"):
-        if message.author.guild_permissions.administrator:
-            try:
-                kogus = int(message.content[7:])
-                await message.channel.purge(limit=kogus)
-                await message.channel.send(f"{kogus} sõnumit edukalt kustutatud")
-            except:
-                await message.channel.send("Sisesta kustutavate sõnumite arv")
-        else:
-            await message.channel.send("Õigused puuduvad")
-    
-
 @bot.command()##XP saamine igapäevaselt (random)
 @commands.cooldown(1, 86400, commands.BucketType.user)
 async def daily(ctx):
