@@ -170,7 +170,7 @@ async def daily(ctx):
     player.setName(str(author)[:-5])
     if player.status == "Alive" or player.status == "Immortal":
         x=random.randint(1, 100)
-        player.setXP(player.xp + x)
+        player.getXp(x)
         await ctx.send(f"{author.mention} said {x} XP-d juurde. Nüüd on sinu XP {player.xp}")
     else:
         await ctx.send(f"{author.mention} oled surnud. Surnud ei saa XP-d")
