@@ -23,17 +23,9 @@ defaultValue= {
 
 itemDefaultValue= {
       "id": "",
-      "type": "",
-      "data": {},
+      "name": "",
+      "propeties": {},
       "lore": ""
-      }
-
-equipDefaultValue={
-      "head": "",
-      "armor": "",
-      "neck": "",
-      "mainHand": "",
-      "offHand": ""
       }
 
 
@@ -93,10 +85,6 @@ class Player:
 
       def getEquip(self):
             inv = self.getInv()
-            if inv["equip"] == {}:
-                  equip = equipDefaultValue
-                  self.setEquip(equip)
-                  inv = self.getInv()
             return inv["equip"]
       
       def setEquip(self, equip):
@@ -187,5 +175,6 @@ class Player:
                   return True
             else:
                   return False
+
 
 
