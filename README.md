@@ -21,4 +21,5 @@ Kratti võti: [https://discord.com/developers/applications](https://discord.com/
 
 ### Autorid
 Gert Kalmus - [@GKalmus](https://github.com/GKalmus)
+
 Rasmus Mirma - [@rmirma](https://github.com/rmirma)
