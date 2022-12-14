@@ -120,10 +120,11 @@ class Player:
             self.setPlayerData()
 
       def levelUp(self):
-            self.getPlayerData() # Uued andmed
             self.level += 1
             self.health = self.level*self.level+100
-            self.setPlayerData() # Salvestan andmed
+            if self.level%5== 0:
+                  self.attack += 1
+                  self.defence += 5
       
       def getXp(self, incomingXp:str= 0):
             self.getPlayerData()

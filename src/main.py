@@ -94,11 +94,11 @@ async def info(ctx, member: discord.Member= None):
         playerInfo.setName(str(member)[:-5])
  
     ##Embed - enesest mõistetav, eesti keeles manus
-    embed=discord.Embed(title="Player card", description=f"**HP**:{playerInfo.health}\n **Status**: {playerInfo.status}")
+    embed=discord.Embed(title="Player card:person_fencing:", description=f":heart_on_fire:**HP**:{playerInfo.health}\n **Status**: {playerInfo.status}")
     embed.set_author(name=f"{member}", icon_url=f"{member.display_avatar}")
     embed.set_footer(text=f"Küsis {ctx.message.author}")
     embed.add_field(name="Stats", value=f"**LvL**: {playerInfo.level}\n **XP**: {playerInfo.xp}", inline=True)
-    embed.add_field(name="Attributes", value=f"**ATK**: {playerInfo.attack}\n **DEF**: {playerInfo.defence}", inline=True)
+    embed.add_field(name="Attributes", value=f":crossed_swords:**ATK**: {playerInfo.attack}\n :shield:**DEF**: {playerInfo.defence}", inline=True)
 
     ##Output - väljastab manuse
     await ctx.send(embed=embed)
