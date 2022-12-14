@@ -11,6 +11,7 @@ import json
 import discord
 from discord.ext import commands
 import datetime
+import random
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -161,9 +162,36 @@ async def heal(ctx, member: discord.Member= None):
     await ctx.send(embed=embed)
 
 
+@bot.command() ##Kanali puhastamine
+async def clear(msg):
+    if message.author.bot:
+        return
+    if message.content.startswith(prefix + "clear"):
+        if message.author.guild_permissions.administrator:
+            try:
+                kogus = int(message.content[7:])
+                await message.channel.purge(limit=kogus)
+                await message.channel.send(f"{kogus} sõnumit edukalt kustutatud")
+            except:
+                await message.channel.send("Sisesta kustutavate sõnumite arv")
+        else:
+            await message.channel.send("Õigused puuduvad")
+    
 
-    
-    
+@bot.command()##XP saamine igapäevaselt (random)
+@commands.cooldown(1, 86400, commands.BucketType.user)
+async def daily(ctx):
+    author = ctx.message.author
+    player = Player(str(author.id))
+    player.setName(str(author)[:-5])
+    if player.status == "alive":
+        x=random.randint(1, 100)
+        player.setXP(player.xp + x)
+        await ctx.send(f"{author.mention} said {x} XP-d juurde. Nüüd on sinu XP {player.xp}")
+    else:
+        await ctx.send(f"{author.mention} oled surnud. Surnud ei saa XP-d")
+
+
 
 try:
     tokenFail = open("..\\token.txt","r", encoding="UTF-8")
@@ -171,3 +199,4 @@ try:
     tokenFail.close()
 except:
     print("Sul puudub token.txt fail")
+
