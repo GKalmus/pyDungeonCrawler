@@ -173,9 +173,20 @@ async def daily(ctx):
         player.getXp(x)
         await ctx.send(f"{author.mention} said {x} XP-d juurde. Nüüd on sinu XP {player.xp}")
     else:
-        await ctx.send(f"{author.mention} oled surnud. Surnud ei saa XP-d")
+        await ctx.send(f"{author.mention} oled surnud. Surnud ei saa XP-d:skull_crossbones:")
 
-
+@bot.command()##XP grind 
+@commands.cooldown(1, 400, commands.BucketType.user)
+async def train(ctx):
+    author = ctx.message.author
+    player = Player(str(author.id))
+    player.setName(str(author)[:-5])
+    if not player.status == "Dead":
+        x=random.randint(1, 10)
+        player.getXp(x)
+        await ctx.send(f"{author.mention} said {x} XP-d juurde. Nüüd on sinu XP {player.xp}")
+    else:
+        await ctx.send(f"{author.mention} oled juba surnud.:skull_crossbones:")
 
 try:
     tokenFail = open("..\\token.txt","r", encoding="UTF-8")
