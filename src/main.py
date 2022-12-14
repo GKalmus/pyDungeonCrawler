@@ -126,7 +126,7 @@ async def attack(ctx, member: discord.Member= None):
     dmgReceived = targetHPthen - targetHPnow
 
     ##Embed
-    embed.add_field(name= f"{attacker.name} attacked {target.name}",value=f"**Damage received**: {dmgReceived}")
+    embed.add_field(name= f"{attacker.name} attacked:crossed_swords: {target.name}",value=f"**Damage received**: {dmgReceived}")
     
     ##Output
     await ctx.send(embed=embed)
@@ -135,7 +135,7 @@ async def attack(ctx, member: discord.Member= None):
 async def heal(ctx, member: discord.Member= None):
     ##Member - vaatab, kas kedagi on pingitud selle käsuga, kui ei ole siis ta võtab memberiks autori ise
     messageauthor = ctx.message.author
-    embed = discord.Embed(title="Heal")
+    embed = discord.Embed(title="Heal:pill:")
     embed.set_footer(text=f"Küsis {ctx.message.author}")
     if not member:
         member = messageauthor
